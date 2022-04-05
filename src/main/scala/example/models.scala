@@ -17,9 +17,11 @@ object models {
   implicit val predictionErrorEncoder: JsonEncoder[PredictionError] = DeriveJsonEncoder.gen[PredictionError]
 
 
-  sealed trait BadFeaturesError extends Throwable {
+  case class NoBundleError(msg: String) extends Exception(msg)
+
+  sealed trait BadFeaturesError extends Exception {
     def message: String
   }
-  case class JsonError(override val message: String) extends BadFeaturesError
+  case class BadJsonError(override val message: String) extends BadFeaturesError
   case class InvalidFeaturesError(override val message: String) extends BadFeaturesError
 }
